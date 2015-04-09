@@ -33,7 +33,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.save()
         self.assertEqual(self.topic.get_title(), 'x' * TITLE_BOUNDARY)
 
-######ERROOOR UNCOMENT TO FAIL TEST#################3
+######ERROOOR UNCOMENT TO FAIL TEST#################3WEB SITE IS BROKEN
     # def test_create_with_poll(self):
     #     self.topic.select_blog_by_id('Флудилка')
     #     self.topic.set_title('test')
@@ -156,3 +156,89 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn(expected_n2,self.topic.get_ol_text())
         self.assertIn('<ul>',self.topic.get_ol_text())
         self.assertIn('</ul>',self.topic.get_ol_text())
+
+    def test_create_uploadimage(self):
+        path_to_image = unicode(os.path.dirname(__file__)) + '/images/pic.jpg'
+        title = config.TITLE
+        align = u'left'
+        description = config.SOME_TEXT
+        expected_tag = '<img'
+        expected_align = 'align="' + align + '"'
+        expected_description = 'title="' + description + '"'
+
+        self.topic.select_blog_by_id('Флудилка')
+        self.topic.set_title(title)
+        self.topic.upload_image(path_to_image, align, description)
+        self.topic.save()
+
+        inner_html=self.topic.get_text()
+        self.assertIn(expected_tag, inner_html)
+        self.assertIn(expected_align, inner_html)
+        self.assertIn(expected_description, inner_html)
+
+    def test_create_image_from_inet(self):
+        title = config.TITLE
+        align = u'left'
+        description = config.SOME_TEXT
+        expected_tag = '<img'
+        expected_align = 'align="' + align + '"'
+        expected_description = 'title="' + description + '"'
+
+        self.topic.select_blog_by_id('Флудилка')
+        self.topic.set_title(title)
+        self.topic.insert_image( align, description)
+        self.topic.save()
+
+        inner_html=self.topic.get_text()
+        self.assertIn(expected_tag, inner_html)
+        self.assertIn(expected_align, inner_html)
+        self.assertIn(expected_description, inner_html)
+
+    def test_create_image_as_link(self):
+        title = config.TITLE
+        align = u'left'
+        description = config.SOME_TEXT
+
+        expected_tag = '<img'
+        expected_align = 'align="' + align + '"'
+        expected_description = 'title="' + description + '"'
+        expected_src = config.TEST_IMG
+
+        self.topic.select_blog_by_id('Флудилка')
+        self.topic.set_title(title)
+        self.topic.insert_image(align, description,as_link=True)
+        self.topic.save()
+
+        inner_html=self.topic.get_text()
+        self.assertIn(expected_tag, inner_html)
+        self.assertIn(expected_src, inner_html)
+        self.assertIn(expected_align, inner_html)
+        self.assertIn(expected_description, inner_html)
+
+    def test_create_user(self):
+        title = u'Добавление пользователя'
+        main_text = u''
+        user = u'Котегов'
+
+        expected_attr = 'href='
+
+        self.topic.select_blog_by_id('Флудилка')
+        self.topic.set_title(config.TITLE)
+        self.topic.set_main_text(config.MAIN_TEXT)
+        self.topic.add_user(user)
+        self.topic.save()
+
+
+        inner_html = self.topic.get_text()
+        self.assertIn(expected_attr, inner_html)
+        self.assertIn(user, inner_html)
+
+    def test_create_link(self):
+
+        self.topic.select_blog_by_id('Флудилка')
+        self.topic.set_title(config.TITLE)
+        self.topic.add_link(u'http://tech-mail.ru', u'Технопарк')
+
+        self.topic.save()
+        self.assertIn('href="http://tech-mail.ru"', self.topic.get_text())
+        self.assertIn(u'Технопарк', self.topic.get_text())

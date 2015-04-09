@@ -8,7 +8,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
-import config;
+from selenium.webdriver.support import expected_conditions
+import config
+from selenium.webdriver.support.ui import Select
 import os
 
 
@@ -254,5 +256,64 @@ class PageObject():
         elem.click()
         self.driver.execute_script("arguments[0].select();", elem)
 
-    #def upload_image(self, path_to_file, align='', description=''):
-        #actions = Actions(self.driver)
+
+    def upload_image(self, path_to_file, align='', description=''):
+        self.driver.find_element_by_xpath('(//*[contains(text(),"изображение")])[2]').click()
+        WebDriverWait(self.driver, 10, 0.1).until(
+            expected_conditions.presence_of_element_located((By.XPATH, '//*[@id="window_upload_img"]'))
+        )
+        self.driver.find_element_by_xpath('//*[contains(text(), "С компьютера")]').click()
+        self.driver.find_element_by_xpath('//*[@id="img_file"]').send_keys(path_to_file)
+        align_selector = Select(self.driver.find_element_by_xpath('//*[@id="form-image-align"]'))
+        align_selector.select_by_value(align)
+        self.driver.find_element_by_xpath('//*[@id="form-image-title"]').click()
+        self.driver.find_element_by_xpath('//*[@id="form-image-title"]').send_keys(*description)
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath('.//*[@id="submit-image-upload"]').is_displayed()
+        )
+        self.driver.find_element_by_xpath('.//*[@id="submit-image-upload"]').click()#НЕ КЛИКАЕТ
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: description in d.find_element_by_xpath('//*[@id="id_text"]').get_attribute('value')
+        )
+    def insert_image(self, align='', description='',as_link=False):
+        self.driver.find_element_by_xpath('(//*[contains(text(),"изображение")])[2]').click()
+        WebDriverWait(self.driver, 10, 0,1).until(
+            expected_conditions.presence_of_element_located((By.XPATH, '//*[@id="window_upload_img"]'))
+        )
+        self.driver.find_element_by_xpath('//*[contains(text(), "Из интернета")]').click()
+        self.driver.find_element_by_xpath('.//*[@id="img_url"]').send_keys(config.TEST_IMG)
+        align_selector = Select(self.driver.find_element_by_xpath('//*[@id="form-image-url-align"]'))
+        align_selector.select_by_value(align)
+        self.driver.find_element_by_xpath('.//*[@id="form-image-url-title"]').click()
+        self.driver.find_element_by_xpath('.//*[@id="form-image-url-title"]').send_keys(*description)
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath('//*[@id="submit-image-upload-link-upload"]' ).is_displayed()
+        )
+        if as_link:
+            self.driver.find_element_by_xpath('.//*[@id="submit-image-upload-link"]' ).click()
+        else:
+            self.driver.find_element_by_xpath('//*[@id="submit-image-upload-link-upload"]' ).click()
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: description in d.find_element_by_xpath('//*[@id="id_text"]').get_attribute('value')
+        )
+    def add_user(self,user):
+        self.driver.find_element_by_xpath('(//*[contains(text(),"Пользователь")])[2]').click()
+        self.driver.find_element_by_xpath('.//*[@id="search-user-login-popup"]').click()
+        self.driver.find_element_by_xpath('.//*[@id="search-user-login-popup"]').send_keys(user)
+        choose_user = '//*[contains(text(), "' + user + '")]'
+
+        WebDriverWait(self.driver, 10, 0.1).until(
+            expected_conditions.presence_of_element_located((By.XPATH, choose_user))
+        )
+        self.driver.find_element_by_xpath(choose_user).click()
+        WebDriverWait(self.driver, 10, 0,1).until(
+            lambda d: user in d.find_element_by_xpath('//*[@id="id_text"]').get_attribute('value')
+        )
+
+    def add_link(self,link,name):
+        self.driver.find_element_by_xpath('(//*[contains(text(),"Ссылка")])[2]').click()
+        WebDriverWait(self.driver, 10, 0.1).until(expected_conditions.alert_is_present())
+        alert = self.driver.switch_to.alert
+        alert.send_keys(link)
+        alert.accept()
+        self.driver.find_element_by_xpath('//*[@id="id_text"]').send_keys(name)

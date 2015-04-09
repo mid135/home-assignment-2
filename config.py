@@ -18,8 +18,8 @@ MAIN_TEXT = u'Если кот - иди в морфлот!'
 SOME_TEXT = u'некоторый текст'
 
 TEST_LINK = 'http://vk.com/'
-TEST_IMG = 'http://neobychno.com/img/2014/11/00-scary-breeds.jpg'
-LOCAL_TEST_IMG = '/tests/images/pic.jpg'
+TEST_IMG = 'neobychno.com/img/2014/11/00-scary-breeds.jpg'
+LOCAL_TEST_IMG = '/images/pic.jpg'
 
 TITLE_BOUNDARY = 250
 LINK_LINE = '[](http://mail.ru)'
