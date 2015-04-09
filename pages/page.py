@@ -15,15 +15,6 @@ import os
 
 
 
-TEXT_FIELD = '//textarea[@id="id_text"]'
-BLOGSELECT = '//a[@class="chzn-single"]'
-OPTION = '//li[text()="{}"]'
-TITLE = '//input[@name="title"]'
-MAIN_TEXT = '//textarea[@id="id_text"]'
-CREATE_BUTTON = '//button[contains(text(),"Создать")]'
-COMMENT = '//input[@id="id_forbid_comment"]'
-POLL = '//input[@name="add_poll"]'
-
 _menu_key = '//div[@class="blogs"]/descendant::li[contains(@class, "editor-{}")]/a'
 
 H4 = _menu_key.format("h4")
@@ -42,16 +33,13 @@ LINK = _menu_key.format("link")
 USER = _menu_key.format("user")
 
 class PageObject():
-    host = 'http://ftest.stud.tech-mail.ru/'
-    #password = os.environ.get('TTHA2PASSWORD')
-    password = 'Pa$$w0rD-8'
 
     def __init__(self):
         self.driver = webdriver.Remote(
             command_executor='http://127.0.0.1:5555/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, os.environ.get('TTHA2BROWSER', 'CHROME'))
+            desired_capabilities=getattr(DesiredCapabilities, config.BROWSER)
         )
-        self.driver.get(self.host)
+        self.driver.get(config.HOST)
 
     def show_login_form(self):
         show_button = self.driver.find_element_by_css_selector('.login-button>a')
@@ -62,9 +50,8 @@ class PageObject():
         login_field = self.driver.find_element_by_css_selector('input[name=login]')
         password_field = self.driver.find_element_by_css_selector('input[name=password]')
         form = self.driver.find_element_by_id('popup-login-form')
-
         login_field.send_keys(login)
-        password_field.send_keys(self.password)
+        password_field.send_keys(config.PASSWORD)
         form.submit()
         wait = WebDriverWait(self.driver, 10)
         user = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'username')))
@@ -84,7 +71,7 @@ class PageObject():
     def has_text_field(self):
         wait = WebDriverWait(self.driver, 10)
         field = wait.until(
-            EC.visibility_of_element_located((By.XPATH, TEXT_FIELD)))
+            EC.visibility_of_element_located((By.XPATH, config.TEXT_FIELD_X)))
         return field.is_displayed()
 
     def select_blog_by_id(self, num):
@@ -94,7 +81,7 @@ class PageObject():
         option.click()
 
     def go_to_topic_edit(self):
-        self.driver.get(self.host+'blog/topic/create/')
+        self.driver.get(config.HOST+'blog/topic/create/')
 
     def set_title(self, title):
         field = self.driver.find_element_by_id('id_title')
@@ -102,7 +89,7 @@ class PageObject():
 
 
     def set_main_text(self, text):
-        field = self.driver.find_element_by_xpath(TEXT_FIELD)
+        field = self.driver.find_element_by_xpath(config.TEXT_FIELD_X)
         ActionChains(self.driver).click(field).send_keys(text).perform();
 
     def get_content(self):
@@ -205,7 +192,7 @@ class PageObject():
     def get_editor_text(self):
         wait = WebDriverWait(self.driver, 10)
         field = wait.until(
-            EC.element_to_be_clickable((By.XPATH, TEXT_FIELD)))
+            EC.element_to_be_clickable((By.XPATH, config.TEXT_FIELD_X)))
         return field.text
 
     def find_poll(self):
@@ -271,7 +258,7 @@ class PageObject():
         WebDriverWait(self.driver, 10, 0.1).until(
             lambda d: d.find_element_by_xpath('.//*[@id="submit-image-upload"]').is_displayed()
         )
-        self.driver.find_element_by_xpath('.//*[@id="submit-image-upload"]').click()#НЕ КЛИКАЕТ
+        self.driver.find_element_by_xpath('.//*[@id="submit-image-upload"]').click()
         WebDriverWait(self.driver, 10, 0.1).until(
             lambda d: description in d.find_element_by_xpath('//*[@id="id_text"]').get_attribute('value')
         )
@@ -292,7 +279,7 @@ class PageObject():
         if as_link:
             self.driver.find_element_by_xpath('.//*[@id="submit-image-upload-link"]' ).click()
         else:
-            self.driver.find_element_by_xpath('//*[@id="submit-image-upload-link-upload"]' ).click()
+            self.driver.find_element_by_xpath('//*[@id="submit-image-upload-link-upload"]').click()
         WebDriverWait(self.driver, 10, 0.1).until(
             lambda d: description in d.find_element_by_xpath('//*[@id="id_text"]').get_attribute('value')
         )

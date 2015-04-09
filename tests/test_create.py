@@ -15,19 +15,22 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.go_to_topic_edit()
 
     def tearDown(self):
-        self.topic.remove()
+        try:
+            self.topic.remove()
+        except Exception:
+            pass
         self.topic.close()
 
     def test_create_ok(self):
         text = config.SOME_TEXT
-        self.topic.select_blog_by_id("Флудилка")
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(text)
         self.topic.save()
         self.assertEqual(self.topic.get_content(), text)
 
     def test_create_title_boundary(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title('x' * TITLE_BOUNDARY)
         self.topic.set_main_text('sample text')
         self.topic.save()
@@ -35,7 +38,7 @@ class PostCreateTestCase(unittest.TestCase):
 
 ######ERROOOR UNCOMENT TO FAIL TEST#################3WEB SITE IS BROKEN
     # def test_create_with_poll(self):
-    #     self.topic.select_blog_by_id('Флудилка')
+    #     self.topic.select_blog_by_id(config.BLOG)
     #     self.topic.set_title('test')
     #     self.topic.set_main_text('text very long')
     #     question = 'Question'
@@ -48,7 +51,7 @@ class PostCreateTestCase(unittest.TestCase):
     #     self.assertEqual(ans2, answer2)
 
     def test_create_bold(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
         self.topic.select_text()
@@ -58,7 +61,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn(expected_str,self.topic.get_text())
 
     def test_create_italic(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
         self.topic.select_text()
@@ -68,7 +71,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn(expected_str,self.topic.get_text())
 
     def test_create_h4(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
         self.topic.select_text()
@@ -78,7 +81,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn(expected_str,self.topic.get_text())
 
     def test_create_h5(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
         self.topic.select_text()
@@ -88,7 +91,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn(expected_str,self.topic.get_text())
 
     def test_create_h6(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
         self.topic.select_text()
@@ -98,7 +101,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn(expected_str,self.topic.get_text())
 
     def test_create_strike(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
         self.topic.select_text()
@@ -108,7 +111,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn(expected_str,self.topic.get_text())
 
     def test_create_quote(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
         self.topic.select_text()
@@ -118,7 +121,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn(expected_str,self.topic.get_text())
 
     def test_create_code(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
         self.topic.select_text()
@@ -128,7 +131,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn(expected_str,self.topic.get_text())
 
     def test_create_ol(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         text = config.MAIN_TEXT + u'\n' + config.SOME_TEXT
         self.topic.set_main_text(text)
@@ -143,7 +146,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn('</ol>',self.topic.get_ol_text())
 
     def test_create_ul(self):
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         text = config.MAIN_TEXT + u'\n' + config.SOME_TEXT
         self.topic.set_main_text(text)
@@ -166,7 +169,7 @@ class PostCreateTestCase(unittest.TestCase):
         expected_align = 'align="' + align + '"'
         expected_description = 'title="' + description + '"'
 
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(title)
         self.topic.upload_image(path_to_image, align, description)
         self.topic.save()
@@ -184,7 +187,7 @@ class PostCreateTestCase(unittest.TestCase):
         expected_align = 'align="' + align + '"'
         expected_description = 'title="' + description + '"'
 
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(title)
         self.topic.insert_image( align, description)
         self.topic.save()
@@ -204,7 +207,7 @@ class PostCreateTestCase(unittest.TestCase):
         expected_description = 'title="' + description + '"'
         expected_src = config.TEST_IMG
 
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(title)
         self.topic.insert_image(align, description,as_link=True)
         self.topic.save()
@@ -222,7 +225,7 @@ class PostCreateTestCase(unittest.TestCase):
 
         expected_attr = 'href='
 
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
         self.topic.add_user(user)
@@ -235,7 +238,7 @@ class PostCreateTestCase(unittest.TestCase):
 
     def test_create_link(self):
 
-        self.topic.select_blog_by_id('Флудилка')
+        self.topic.select_blog_by_id(config.BLOG)
         self.topic.set_title(config.TITLE)
         self.topic.add_link(u'http://tech-mail.ru', u'Технопарк')
 
