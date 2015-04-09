@@ -36,7 +36,7 @@ class PageObject():
 
     def __init__(self):
         self.driver = webdriver.Remote(
-            command_executor='http://127.0.0.1:5555/wd/hub',
+            command_executor=config.EXECUTOR,
             desired_capabilities=getattr(DesiredCapabilities, config.BROWSER)
         )
         self.driver.get(config.HOST)

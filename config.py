@@ -4,7 +4,7 @@ import os
 
 browser_environ = 'TTHA2BROWSER'
 BROWSER = os.environ.get(browser_environ, 'CHROME')
-
+EXECUTOR='http://127.0.0.1:5555/wd/hub'
 
 LOGIN = 'ftest8@tech-mail.ru'
 PASSWORD = os.environ['TTHA2PASSWORD']
