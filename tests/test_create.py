@@ -51,7 +51,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.select_blog_by_id('Флудилка')
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
-        self.topic.select_text('//textarea[@id="id_text"]')
+        self.topic.select_text()
         self.topic.bold()
         self.topic.save()
         expected_str = '<strong>' + config.MAIN_TEXT + '</strong>'
@@ -61,7 +61,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.select_blog_by_id('Флудилка')
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
-        self.topic.select_text('//textarea[@id="id_text"]')
+        self.topic.select_text()
         self.topic.italic()
         self.topic.save()
         expected_str = '<em>' + config.MAIN_TEXT + '</em>'
@@ -71,7 +71,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.select_blog_by_id('Флудилка')
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
-        self.topic.select_text('//textarea[@id="id_text"]')
+        self.topic.select_text()
         self.topic.h4()
         self.topic.save()
         expected_str = '<h4>' + config.MAIN_TEXT + '</h4>'
@@ -81,7 +81,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.select_blog_by_id('Флудилка')
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
-        self.topic.select_text('//textarea[@id="id_text"]')
+        self.topic.select_text()
         self.topic.h5()
         self.topic.save()
         expected_str = '<h5>' + config.MAIN_TEXT + '</h5>'
@@ -91,7 +91,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.select_blog_by_id('Флудилка')
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
-        self.topic.select_text('//textarea[@id="id_text"]')
+        self.topic.select_text()
         self.topic.h6()
         self.topic.save()
         expected_str = '<h6>' + config.MAIN_TEXT + '</h6>'
@@ -101,7 +101,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.select_blog_by_id('Флудилка')
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
-        self.topic.select_text('//textarea[@id="id_text"]')
+        self.topic.select_text()
         self.topic.stroke()
         self.topic.save()
         expected_str = '<s>' + config.MAIN_TEXT + '</s>'
@@ -111,7 +111,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.select_blog_by_id('Флудилка')
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
-        self.topic.select_text('//textarea[@id="id_text"]')
+        self.topic.select_text()
         self.topic.quote()
         self.topic.save()
         expected_str = '<blockquote>' + config.MAIN_TEXT + '</blockquote>'
@@ -121,7 +121,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.select_blog_by_id('Флудилка')
         self.topic.set_title(config.TITLE)
         self.topic.set_main_text(config.MAIN_TEXT)
-        self.topic.select_text('//textarea[@id="id_text"]')
+        self.topic.select_text()
         self.topic.code()
         self.topic.save()
         expected_str = '<code>' + config.MAIN_TEXT + '</code>'
@@ -132,7 +132,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.set_title(config.TITLE)
         text = config.MAIN_TEXT + u'\n' + config.SOME_TEXT
         self.topic.set_main_text(text)
-        self.topic.select_text('//textarea[@id="id_text"]')
+        self.topic.select_text()
         self.topic.ordered_list()
         self.topic.save()
         expected_n1= '<li>' + config.MAIN_TEXT +'</li>'
@@ -147,7 +147,7 @@ class PostCreateTestCase(unittest.TestCase):
         self.topic.set_title(config.TITLE)
         text = config.MAIN_TEXT + u'\n' + config.SOME_TEXT
         self.topic.set_main_text(text)
-        self.topic.select_text('//textarea[@id="id_text"]')
+        self.topic.select_text()
         self.topic.unordered_list()
         self.topic.save()
         expected_n1= '<li>' + config.MAIN_TEXT +'</li>'

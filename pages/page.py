@@ -249,10 +249,10 @@ class PageObject():
             return None
         return link
 
-    def select_text(self, by):
+    def select_text(self):
         # ActionChains(self.driver).click(self.driver.find_element(by, value)).\
         #     key_down(Keys.CONTROL).send_keys('a').send_keys('A').key_up(Keys.CONTROL).perform()
-        elem = self.driver.find_element_by_xpath(by)
+        elem = self.driver.find_element_by_xpath('//textarea[@id="id_text"]')
         elem.click()
         self.driver.execute_script("arguments[0].select();", elem)
 
