@@ -5,15 +5,11 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions
 import config
 from selenium.webdriver.support.ui import Select
-import os
-
-
 
 _menu_key = '//div[@class="blogs"]/descendant::li[contains(@class, "editor-{}")]/a'
 
@@ -161,23 +157,6 @@ class PageObject():
         alert.send_keys(link)
         alert.accept()
 
-    def insert_image(self, link):
-        btn = self.driver.find_element_by_xpath('//*[@id="container"]//a[@class="markdown-editor-icon-image"][1]')
-        btn.click()
-        alert = self.driver.switch_to.alert
-        alert.send_keys(link)
-        alert.accept()
-
-
-    def insert_user(self):
-        btn = self.driver.find_element_by_xpath('//*[@id="container"]//a[@class="markdown-editor-icon-link"][2]')
-        btn.click()
-
-
-    def preview(self):
-        btn = self.driver.find_element_by_css_selector('#container .markdown-editor-icon-preview')
-        btn.click()
-
     def add_poll(self, question, answer1, answer2):
         poll_checkbox = self.driver.find_element_by_xpath('//*[@class="input-checkbox add-poll"]')
         poll_checkbox.click()
@@ -189,16 +168,7 @@ class PageObject():
         ans1.send_keys(answer1)
         ans2.send_keys(answer2)
 
-    def get_editor_text(self):
-        wait = WebDriverWait(self.driver, 10)
-        field = wait.until(
-            EC.element_to_be_clickable((By.XPATH, config.TEXT_FIELD_X)))
-        return field.text
 
-    def find_poll(self):
-        ans1 = self.driver.find_element_by_xpath('(//*[@id="id_form-0-answer"])').text
-        ans2 = self.driver.find_element_by_xpath('(//*[@id="id_form-1-answer"])').text
-        return ans1, ans2
 
     def get_text(self):
         try:
@@ -215,30 +185,7 @@ class PageObject():
             return None
         return text
 
-    def get_ul_text(self):
-        try:
-            text = self.driver.find_element_by_xpath('//*[contains(@class, "topic-content")]/ul').text
-        except NoSuchElementException:
-            return None
-        return text
-
-    def get_img_text(self):
-        try:
-            url = self.driver.find_element_by_xpath('//*[contains(@class, "topic-content")]//img').get_attribute('src')
-        except NoSuchElementException:
-            return None
-        return url
-
-    def get_link(self):
-        try:
-            link = self.driver.find_element_by_xpath('//*[contains(@class, "topic-content")]//a').get_attribute('href')
-        except NoSuchElementException:
-            return None
-        return link
-
     def select_text(self):
-        # ActionChains(self.driver).click(self.driver.find_element(by, value)).\
-        #     key_down(Keys.CONTROL).send_keys('a').send_keys('A').key_up(Keys.CONTROL).perform()
         elem = self.driver.find_element_by_xpath('//textarea[@id="id_text"]')
         elem.click()
         self.driver.execute_script("arguments[0].select();", elem)
@@ -264,7 +211,7 @@ class PageObject():
         )
     def insert_image(self, align='', description='',as_link=False):
         self.driver.find_element_by_xpath('(//*[contains(text(),"изображение")])[2]').click()
-        WebDriverWait(self.driver, 10, 0,1).until(
+        WebDriverWait(self.driver, 10, 0.1).until(
             expected_conditions.presence_of_element_located((By.XPATH, '//*[@id="window_upload_img"]'))
         )
         self.driver.find_element_by_xpath('//*[contains(text(), "Из интернета")]').click()
@@ -293,7 +240,7 @@ class PageObject():
             expected_conditions.presence_of_element_located((By.XPATH, choose_user))
         )
         self.driver.find_element_by_xpath(choose_user).click()
-        WebDriverWait(self.driver, 10, 0,1).until(
+        WebDriverWait(self.driver, 10, 0.1).until(
             lambda d: user in d.find_element_by_xpath('//*[@id="id_text"]').get_attribute('value')
         )
 

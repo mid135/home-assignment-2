@@ -1,7 +1,6 @@
 # coding=utf-8
 import unittest
 from pages.page import PageObject
-import pages
 import config
 import os
 from selenium.common.exceptions import NoSuchElementException
@@ -9,6 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 TITLE_BOUNDARY = 250
 
 #true cases
+
 class PostCreateTestCase(unittest.TestCase):
     def setUp(self):
         self.topic = PageObject()
@@ -220,8 +220,6 @@ class PostCreateTestCase(unittest.TestCase):
         self.assertIn(expected_description, inner_html)
 
     def test_create_user(self):
-        title = u'Добавление пользователя'
-        main_text = u''
         user = u'Котегов'
 
         expected_attr = 'href='
