@@ -4,6 +4,7 @@ from pages.page import PageObject
 import pages
 import config
 import os
+from selenium.common.exceptions import NoSuchElementException
 
 TITLE_BOUNDARY = 250
 
@@ -17,7 +18,7 @@ class PostCreateTestCase(unittest.TestCase):
     def tearDown(self):
         try:
             self.topic.remove()
-        except Exception:
+        except NoSuchElementException:
             pass
         self.topic.close()
 

@@ -115,68 +115,68 @@ class PageObject():
         return error.is_displayed()
 
     def bold(self):
-        bold_btn = self.driver.find_element_by_xpath(BOLD)
-        bold_btn.click()
+        btn = self.driver.find_element_by_xpath(BOLD)
+        btn.click()
 
     def italic(self):
-        bold_btn = self.driver.find_element_by_xpath(ITALIC)
-        bold_btn.click()
+        btn = self.driver.find_element_by_xpath(ITALIC)
+        btn.click()
 
     def h4(self):
-        bold_btn = self.driver.find_element_by_xpath(H4)
-        bold_btn.click()
+        btn = self.driver.find_element_by_xpath(H4)
+        btn.click()
 
     def h5(self):
-        bold_btn = self.driver.find_element_by_xpath(H5)
-        bold_btn.click()
+        btn = self.driver.find_element_by_xpath(H5)
+        btn.click()
 
     def h6(self):
-        bold_btn = self.driver.find_element_by_xpath(H6)
-        bold_btn.click()
+        btn = self.driver.find_element_by_xpath(H6)
+        btn.click()
 
     def quote(self):
         quote_btn = self.driver.find_element_by_xpath(QUOTE)
         quote_btn.click()
 
     def stroke(self):
-        quote_btn = self.driver.find_element_by_xpath(STROKE)
-        quote_btn.click()
+        btn = self.driver.find_element_by_xpath(STROKE)
+        btn.click()
 
     def code(self):
-        quote_btn = self.driver.find_element_by_xpath(CODE)
-        quote_btn.click()
+        btn = self.driver.find_element_by_xpath(CODE)
+        btn.click()
 
     def unordered_list(self):
-        ul_btn = self.driver.find_element_by_xpath(UL)
-        ul_btn.click()
+        btn = self.driver.find_element_by_xpath(UL)
+        btn.click()
 
     def ordered_list(self):
-        ol_btn = self.driver.find_element_by_xpath(OL)
-        ol_btn.click()
+        btn = self.driver.find_element_by_xpath(OL)
+        btn.click()
 
     def link(self, link):
-        link_btn = self.driver.find_element_by_xpath('//*[@id="container"]//a[@class="markdown-editor-icon-link"][1]')
-        link_btn.click()
+        btn = self.driver.find_element_by_xpath('//*[@id="container"]//a[@class="markdown-editor-icon-link"][1]')
+        btn.click()
         alert = self.driver.switch_to.alert
         alert.send_keys(link)
         alert.accept()
 
     def insert_image(self, link):
-        img_btn = self.driver.find_element_by_xpath('//*[@id="container"]//a[@class="markdown-editor-icon-image"][1]')
-        img_btn.click()
+        btn = self.driver.find_element_by_xpath('//*[@id="container"]//a[@class="markdown-editor-icon-image"][1]')
+        btn.click()
         alert = self.driver.switch_to.alert
         alert.send_keys(link)
         alert.accept()
 
 
     def insert_user(self):
-        quote_btn = self.driver.find_element_by_xpath('//*[@id="container"]//a[@class="markdown-editor-icon-link"][2]')
-        quote_btn.click()
+        btn = self.driver.find_element_by_xpath('//*[@id="container"]//a[@class="markdown-editor-icon-link"][2]')
+        btn.click()
 
 
     def preview(self):
-        quote_btn = self.driver.find_element_by_css_selector('#container .markdown-editor-icon-preview')
-        quote_btn.click()
+        btn = self.driver.find_element_by_css_selector('#container .markdown-editor-icon-preview')
+        btn.click()
 
     def add_poll(self, question, answer1, answer2):
         poll_checkbox = self.driver.find_element_by_xpath('//*[@class="input-checkbox add-poll"]')
